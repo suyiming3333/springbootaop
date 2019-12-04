@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <bean id="roundAdvice" class="com.springaop.demo.RoundAdvice"/>
+    <bean id="myPrinter" class="com.springaop.demo.MyPrinter"/>
+    <!--ProxyFactoryBean实现了Spring的FactoryBean接口，所以它跟Spring中的其它FactoryBean一样，-->
+    <!--都是基于工厂模式来获取一个bean的。ProxyFactoryBean就是用来获取一个对象的代理对象的FactoryBean。-->
+    <!--它也是继承自ProxyCreatorSupport类的，所以它的功能基本跟ProxyFactory差不多，只是ProxyFactory-->
+    <!--是用于编程式的创建代理对象。而ProxyFactoryBean用于在Spring的bean容器中创建基于bean的代理对象-->
+    <bean id="printerProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="interceptorNames">
+            <list>
+                <value>roundAdvice</value>
+            </list>
+        </property>
+        <property name="target" ref="myPrinter"></property>
+    </bean>
+
+</beans>
